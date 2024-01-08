@@ -118,7 +118,31 @@ const sendWelcomeTemplate = async (whatsAppId) => {
   return sendRestApi(payload);
 };
 
-const sendWelcomeTemplateNonExistingNumber = async () => {
+const sendWelcomeTemplateNonExistingNumber = async (whatsAppId) => {
+  const payload = {
+    messaging_product: "whatsapp",
+    to: whatsAppId,
+    type: "template",
+    template: {
+      name: "the_apollo_welcome_number_not_existing2_temp",
+      language: {
+        code: "en_US",
+      },
+      components: [
+        {
+          type: "Header",
+          parameters: [
+            {
+              type: "image",
+              image: {
+                link: "https://theapollo.co.za/wp-content/uploads/2021/03/APOLLO_Logo_Primary_BL-scaled.jpg",
+              },
+            },
+          ],
+        },
+      ],
+    },
+  };
   return sendRestApi(payload);
 };
 
