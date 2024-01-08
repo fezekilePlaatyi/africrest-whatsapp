@@ -1,8 +1,9 @@
 const {
   sendWelcomeTemplate,
   sendMessageByTemplateId,
-  sendAccessCodeTemplate,
+  sendWelcomeTemplateNonExistingNumber,
   sendDyamicMessage,
+  sendTheResidenceGuide,
 } = require("./whatsapp_processor");
 const moment = require("moment");
 
@@ -25,12 +26,6 @@ let users = [
 ];
 
 const generateAccessCode = async () => {
-  // Generate a random 5-digit number
-  //   const randomNumber = Math.floor(10000 + Math.random() * 90000);
-
-  //   // Ensure the generated number is exactly 5 digits
-  //   const accessCode = randomNumber.toString().padStart(5, "0");
-
   return Math.floor(Math.random() * 90000) + 10000;
 };
 
@@ -99,10 +94,14 @@ const handler = async (req, res) => {
               );
               users = await updateStatus(whatsAppId, 2);
               res.send("ok");
+            } else if (messageBody.trim() == "4") {
+              users = await updateStatus(whatsAppId, 0);
+              await sendTheResidenceGuide(whatsAppId);
+              res.send("ok");
             }
           }
         } else {
-          await sendWelcomeTemplate(whatsAppId);
+          await sendWelcomeTemplateNonExistingNumber(whatsAppId);
           res.send("ok");
         }
       } else if (typeOfMessage === "button") {

@@ -118,6 +118,36 @@ const sendWelcomeTemplate = async (whatsAppId) => {
   return sendRestApi(payload);
 };
 
+const sendTheResidenceGuide = async (whatsAppId) => {
+  const payload = {
+    messaging_product: "whatsapp",
+    to: whatsAppId,
+    type: "template",
+    template: {
+      name: "the_apollo_brochure",
+      language: {
+        code: "en_US",
+      },
+      components: [
+        {
+          type: "Header",
+          parameters: [
+            {
+              type: "document",
+              document: {
+                link: "https://9198-41-76-101-134.ngrok-free.app/brochure",
+                filename: "wsu_prospectus_2023.pdf",
+              },
+            },
+          ],
+        },
+      ],
+    },
+  };
+
+  return sendRestApi(payload);
+};
+
 const sendWelcomeTemplateNonExistingNumber = async (whatsAppId) => {
   const payload = {
     messaging_product: "whatsapp",
@@ -143,6 +173,7 @@ const sendWelcomeTemplateNonExistingNumber = async (whatsAppId) => {
       ],
     },
   };
+
   return sendRestApi(payload);
 };
 
@@ -152,4 +183,5 @@ module.exports = {
   sendMessageByTemplateId: sendMessageByTemplateId,
   sendAccessCodeTemplate: sendAccessCodeTemplate,
   sendDyamicMessage: sendDyamicMessage,
+  sendTheResidenceGuide: sendTheResidenceGuide,
 };

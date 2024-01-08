@@ -17,6 +17,10 @@ app.get("/logo", function (req, res) {
   res.sendFile(__dirname + "/logo.png");
 });
 
+app.get("/brochure", function (req, res) {
+  res.sendFile(__dirname + "/the_apollo_brochure.pdf");
+});
+
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
