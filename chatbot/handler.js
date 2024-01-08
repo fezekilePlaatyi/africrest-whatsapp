@@ -72,6 +72,7 @@ const handler = async (req, res) => {
     }
   } else {
     const whatsAppPayload = messageData.entry[0].changes[0].value;
+    console.log(JSON.stringify(whatsAppPayload));
 
     if (!!whatsAppPayload.contacts) {
       const whatsAppId = whatsAppPayload.contacts[0].wa_id;
@@ -98,7 +99,21 @@ const handler = async (req, res) => {
               users = await updateStatus(whatsAppId, 0);
               await sendTheResidenceGuide(whatsAppId);
               res.send("ok");
+            } else if (messageBody.trim() == "7") {
+              await sendMessageByTemplateId(
+                whatsAppId,
+                "the_appolo_feedback_temp"
+              );
+              users = await updateStatus(whatsAppId, 3);
+              res.send("ok");
             }
+          } else if (result.details.activeSessionDetails.currentStatus == 3) {
+            await sendMessageByTemplateId(
+              whatsAppId,
+              "the_appolo_feedback_appreciation_temp"
+            );
+            users = await updateStatus(whatsAppId, 0);
+            res.send("ok");
           }
         } else {
           await sendWelcomeTemplateNonExistingNumber(whatsAppId);
@@ -113,6 +128,7 @@ const handler = async (req, res) => {
               "the_apollo_invalid_input_temp"
             );
             await sendWelcomeTemplate(whatsAppId);
+            res.send("ok");
           } else if (result.details.activeSessionDetails.currentStatus == 2) {
             users = await updateStatus(whatsAppId, 0);
 
