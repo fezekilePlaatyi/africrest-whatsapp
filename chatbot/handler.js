@@ -106,6 +106,13 @@ const handler = async (req, res) => {
               );
               users = await updateStatus(whatsAppId, 3);
               res.send("ok");
+            } else {
+              await sendMessageByTemplateId(
+                whatsAppId,
+                "the_appolo_work_in_progress_temp"
+              );
+              users = await updateStatus(whatsAppId, 0);
+              res.send("ok");
             }
           } else if (result.details.activeSessionDetails.currentStatus == 3) {
             await sendMessageByTemplateId(
